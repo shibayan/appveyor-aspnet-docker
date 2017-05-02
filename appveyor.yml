@@ -3,4 +3,5 @@ image: Visual Studio 2017
 before_build:
   - nuget restore
 build_script:
-  - msbuild .\AspNetApplication\AspNetApplication.csproj /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="..\output";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release
+  - msbuild .\AspNetApplication\AspNetApplication.csproj /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="..\publish";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release
+  - docker build -t shibayan/appveyor-aspnet-docker .
