@@ -16,7 +16,7 @@ build_script:
 
 test_script:
   - ps: |
-      $cid = docker run -d -p 8080:80 shibayan/appveyor-aspnet-docker
+      $cid = docker run -d shibayan/appveyor-aspnet-docker
       $hostip = docker inspect -f "{{ .NetworkSettings.Networks.nat.IPAddress }}" $cid
       curl "http://${hostip}" -UseBasicParsing
 
