@@ -1,7 +1,19 @@
 version: '{build}'
+
 image: Visual Studio 2017
+
+environment:
+  DOCKER_USER: shibayan
+  DOCKER_PASS:
+    secure: aQDSLi3nDw3anF8c5a/WPw==
+
 before_build:
   - nuget restore
+
 build_script:
   - msbuild .\AspNetApplication\AspNetApplication.csproj /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="..\publish";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release
   - docker build -t shibayan/appveyor-aspnet-docker .
+
+deploy_script:
+  - docker login -u %DOCKER_USER% -p %DOCKER_PASS%
+  - docker push shibayan/appveyor-aspnet-docker
