@@ -14,6 +14,11 @@ build_script:
   - msbuild .\AspNetApplication\AspNetApplication.csproj /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="..\publish";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release
   - docker build -t shibayan/appveyor-aspnet-docker .
 
+test_script:
+  - ps: $cid = docker run -d -p 8080:80 shibayan/appveyor-aspnet-docker
+  - ps: $hostip = docker inspect -f "{{ .NetworkSettings.Networks.nat.IPAddress }}" $cid
+  - ps: curl "http://${hostip}" -UseBasicParsing
+
 deploy_script:
   - docker login -u %DOCKER_USER% -p %DOCKER_PASS%
   - docker push shibayan/appveyor-aspnet-docker
