@@ -8,6 +8,9 @@ environment:
     secure: aQDSLi3nDw3anF8c5a/WPw==
   DOCKER_IMAGE_NAME: shibayan/appveyor-aspnet-docker:$(APPVEYOR_REPO_BRANCH)-$(APPVEYOR_BUILD_NUMBER)
 
+install:
+  - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.6.2/bin/windows/amd64/kubectl.exe
+
 before_build:
   - nuget restore
 
@@ -17,7 +20,7 @@ build_script:
 
 test_script:
   - ps: |
-      $cid = docker run -d %DOCKER_IMAGE_NAME%
+      $cid = docker run -d $env:DOCKER_IMAGE_NAME
       $hostip = docker inspect -f "{{ .NetworkSettings.Networks.nat.IPAddress }}" $cid
       curl "http://${hostip}" -UseBasicParsing
 
