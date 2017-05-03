@@ -6,20 +6,21 @@ environment:
   DOCKER_USER: shibayan
   DOCKER_PASS:
     secure: aQDSLi3nDw3anF8c5a/WPw==
+  DOCKER_IMAGE_NAME: shibayan/appveyor-aspnet-docker:$(APPVEYOR_REPO_BRANCH)-$(APPVEYOR_BUILD_NUMBER)
 
 before_build:
   - nuget restore
 
 build_script:
   - msbuild .\AspNetApplication\AspNetApplication.csproj /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="..\publish";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release
-  - docker build -t shibayan/appveyor-aspnet-docker .
+  - docker build -t %DOCKER_IMAGE_NAME% .
 
 test_script:
   - ps: |
-      $cid = docker run -d shibayan/appveyor-aspnet-docker
+      $cid = docker run -d %DOCKER_IMAGE_NAME%
       $hostip = docker inspect -f "{{ .NetworkSettings.Networks.nat.IPAddress }}" $cid
       curl "http://${hostip}" -UseBasicParsing
 
 deploy_script:
   - docker login -u %DOCKER_USER% -p %DOCKER_PASS%
-  - docker push shibayan/appveyor-aspnet-docker
+  - docker push %DOCKER_IMAGE_NAME%
