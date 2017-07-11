@@ -7,12 +7,6 @@ environment:
   DOCKER_PASS:
     secure: aQDSLi3nDw3anF8c5a/WPw==
   DOCKER_IMAGE_NAME: shibayan/appveyor-aspnet-docker:$(APPVEYOR_REPO_BRANCH)-$(APPVEYOR_BUILD_NUMBER)
-  KUBE_MASTER: https://shibayanmgmt.japanwest.cloudapp.azure.com
-  KUBE_TOKEN:
-    secure: VaThRI9R4VLpB1x19snL/ridL9EvGULiNyr1EwcSLoOXP8gfjeWtaoUIYmN6wakHPKnwC+qU4AvXofC1HMhpdkcnBOhK7KGiD6W4nbWlcR1A0ypHtXTfSLrexvm/O90PNYdK30vMBnq+63wVfDzZ9QBmNtHsCTh0SoGeJ9cSWCSxyOe5FKBm+CLckvpdF03DsggbSVOboUndU181y5krRQX+RikDbrFFR50J2xYb/g4ZPZSHJ3ehhKvI6DcmT6ES0GeES44u0Sk/hBFQetuGKXrhy3x2d7n6/XSRMZ0BpWLPL+U3vzCrTWdLpYN3NLuvkCNyrN4z+Z9wznTyZSg26ZGUeMd3tZPgS0JjlmD8GuLq3gqPGVdgbNMXm8+MMUCZiOI+TEYtfO9IjElH4RYLB/2GEpW3mZ2tEpax2datzhUDJistUC1Sze84vbvsbaeuHtWH+CPTKPpKnYlxPr+nMioVJbkGqqT0Apo4NsFBTTv7IZt276TV5v/SVUtGnTFq08CgSE5YkpGXN5S9gj9k0Z58Zvvdq1pg32tIdWuMkE14/Jh98QxTl4IQYQewKKC2nFgzk/0fORz6Bvq+UdFYyZYFkSH9Sc+CyW8mY23YiT4wD1DSns683cxVZwT2zDAyLVGeGRjZPgcloAJ2CSCZkvKGM4uZNNCExJ/nMLXpViZ+PyVO93Wk6/0FO1RHzQrzzi6p6BnZ4ZNDg85nImDVz6TQAM8JLjiwWi2zCu9GIm4kN5Los1EDdA5CcvC6AKPSyDEbz95FieMOy09vB8ndOq4HyKrk5knEyRgM80grKakf4ux9n97lTNkqiFD7pLRo5yaKSq5nTUh5Vc5QeiIJY/UW19xY8NHTkqRzCE3rwjw6xv0BliKEBph2AIYr6TxkBvDyEJg1OT+iPfZUCYe9aI3JcN1MIh3Nxx5JLGSmYgtOnzoEsXu1XXfOCTF0Sel1FIZWdPbsfx0OO6DSYbkWDYSIAWHQiYl9yTYGo7Qxh/bVG+EuYbcIUS36+HXi957kd97BATPmHIjMKWcTaHiKu4cMBlwUzjyr8l9rnueK+m6KizOKw2P/tKrzDonzTiUxU9RlLAd1TN2ZOMQdLhVAN0x8ETedhQ8/j0mVBlhi5KVQYtDQCk/uJv/nfmGUNBAf
-
-install:
-  - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.6.2/bin/windows/amd64/kubectl.exe
 
 before_build:
   - nuget restore
@@ -30,4 +24,3 @@ test_script:
 deploy_script:
   - docker login -u %DOCKER_USER% -p %DOCKER_PASS%
   - docker push %DOCKER_IMAGE_NAME%
-  - kubectl set image deployment/aspnet aspnet=%DOCKER_IMAGE_NAME% --server=%KUBE_MASTER% --token=%KUBE_TOKEN% --insecure-skip-tls-verify=true
