@@ -8,6 +8,9 @@ environment:
     secure: aQDSLi3nDw3anF8c5a/WPw==
   DOCKER_IMAGE_NAME: shibayan/appveyor-aspnet-docker:$(APPVEYOR_REPO_BRANCH)-$(APPVEYOR_BUILD_NUMBER)
 
+install:
+  - nuget sources update -name nuget.org -source https://api.nuget.org/v3/index.json
+
 before_build:
   - nuget restore
 
