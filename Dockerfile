@@ -1,3 +1,3 @@
-FROM microsoft/aspnet:4.6.2
+FROM microsoft/aspnet
 
 COPY ./publish/ /inetpub/wwwroot
