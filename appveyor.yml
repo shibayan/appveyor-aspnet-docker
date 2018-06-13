@@ -8,6 +8,11 @@ environment:
     secure: aQDSLi3nDw3anF8c5a/WPw==
   DOCKER_IMAGE_NAME: shibayan/appveyor-aspnet-docker:$(APPVEYOR_REPO_BRANCH)-$(APPVEYOR_BUILD_NUMBER)
 
+init:
+  - ps: gcim Win32_Processor | % { "$($_.NumberOfCores) cores" }
+  - ps: gcim Win32_OperatingSystem | % { "$([int]($_.TotalVisibleMemorySize/1mb)) Gb" }
+  - ps: docker version
+
 install:
   - nuget sources update -name nuget.org -source https://api.nuget.org/v3/index.json
 
