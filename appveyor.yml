@@ -12,6 +12,7 @@ init:
   - ps: gcim Win32_Processor | % { "$($_.NumberOfCores) cores" }
   - ps: gcim Win32_OperatingSystem | % { "$([int]($_.TotalVisibleMemorySize/1mb)) Gb" }
   - ps: docker version
+  - ps: docker info
   - ps: docker images
 
 install:
