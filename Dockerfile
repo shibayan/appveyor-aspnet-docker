@@ -1,3 +1,3 @@
-FROM microsoft/aspnet
+FROM microsoft/aspnet:latest
 
 COPY ./publish/ /inetpub/wwwroot
