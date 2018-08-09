@@ -15,14 +15,7 @@ init:
   - ps: docker info
   - ps: docker images
 
-install:
-  - nuget sources update -name nuget.org -source https://api.nuget.org/v3/index.json
-
-before_build:
-  - nuget restore
-
 build_script:
-  - msbuild .\AspNetApplication\AspNetApplication.csproj /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="..\publish";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release
   - docker build -t %DOCKER_IMAGE_NAME% .
 
 test_script:
