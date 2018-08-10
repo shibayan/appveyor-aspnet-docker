@@ -1,4 +1,5 @@
 ﻿@using System.Collections
+@using System.Configuration
 @{
     ViewBag.Title = "Home Page";
 }
@@ -37,5 +38,14 @@
     @foreach (var item in Environment.GetEnvironmentVariables().Cast<DictionaryEntry>().OrderBy(x => x.Key))
     {
         <li>@item.Key = @item.Value</li>
+    }
+</ul>
+
+<h2>App Settings</h2>
+
+<ul>
+    @foreach (var key in ConfigurationManager.AppSettings.AllKeys)
+    {
+        <li>@key = @ConfigurationManager.AppSettings[key]</li>
     }
 </ul>
