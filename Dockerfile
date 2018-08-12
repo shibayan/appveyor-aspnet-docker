@@ -10,4 +10,6 @@ RUN nuget restore; `
 
 FROM microsoft/aspnet:4.7.2-windowsservercore-ltsc2016
 
+RUN net localgroup "Performance Monitor Users" "IIS APPPOOL\DefaultAppPool" /add
+
 COPY --from=build ./publish/ /inetpub/wwwroot
