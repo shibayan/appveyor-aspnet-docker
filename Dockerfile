@@ -1,6 +1,6 @@
 # escape=`
 
-FROM microsoft/dotnet-framework:4.7.2-sdk-windowsservercore-ltsc2016 as build
+FROM shibayan/dotnet-framework:sdk-ltsc2016 as build
 
 COPY . .
 
